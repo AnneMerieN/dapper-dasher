@@ -41,12 +41,17 @@ int main() {
     Vector2 nebulaPos{windowWidth, windowHeight - nebulaRec.height};
 
     // Nebula X velocity (pixels/second)
-    int nebulaVelocity{-600};
+    int nebulaVelocity{-200};
 
-    
+    // Nebula animation variables
+    int nebulaFrame{};
+    const float nebUpdateTime{1.0/12.0};
+    float nebRunningTime{};
+
 
     // Animation frame
     int frame = 0;
+
     // Amount of time before we update the animation frame
     const float updateTime(1.0/12.0);
     float runningTime = 0;
@@ -84,10 +89,11 @@ int main() {
         // Update scarfy position
         scarfyPos.y = scarfyPos.y + (velocity * dT);
 
+        // Update scarfy's animation frame
         if (!isInAir) {
+            // Update running time
+            runningTime = runningTime + dT;
 
-                // Update running time
-                runningTime = runningTime + dT;
             if (runningTime >= updateTime) {
                 runningTime = 0;
 
@@ -99,9 +105,21 @@ int main() {
                     frame = 0;
                 }
             }
+        }
 
+        // Update nebula animation frame
+        nebRunningTime += dT;
+        if (nebRunningTime >= nebUpdateTime) {
+            nebRunningTime = 0.0;
+            nebulaRec.x = nebulaFrame * nebulaRec.width;
+            nebulaFrame++;
 
-    }
+            if (nebulaFrame > 7) {
+                nebulaFrame = 0;
+            }
+
+        }
+
 
 
         // Draw nebula
