@@ -1,3 +1,9 @@
+/* UNDERSTANDING GAME MOVEMENT
+    - velocity: speed and direction of movement
+    - acceleration: change in velocity over time
+    - gravity: constant acceleration pulling downward
+*/
+
 #include <raylib.h>
 
 
@@ -14,11 +20,13 @@ int main() {
     const int width = 50;
     const int height = 80;
 
-    int posY = windowHeight - height; // Starts on the ground
+    int posY = windowHeight - height; // Rectangle starts at bottom of window
     int velocity = 0; // Initial velocity (not moving)
-    const int jumpForce = -15; // How high the jump goes (negative moves up)
-    const int gravity = 1; // Gravity pulls the character back down
+    const int jumpForce = -22; // Controls how high the jump is
+    const int gravity = 1; // Makes the character fall
     bool isJumping = false; // Track whether the user is pressing the space key
+    bool isInAir{};
+    
 
     SetTargetFPS(60);
 
@@ -28,17 +36,20 @@ int main() {
         BeginDrawing();
         ClearBackground(WHITE);
 
-        // Perform ground check
+        // Perform ground check (Checks if rectangle has reached or is below the ground level)
         if(posY >= windowHeight - height) {
             // Rectangle is on the ground
             velocity = 0;
+            isInAir = false;
         } else {
-            // Apply gravity
+            // Only apply gravity when rectangle is in the air
             velocity = velocity + gravity;
+            isInAir = true;
         }
 
-        if(IsKeyPressed(KEY_SPACE)) {
-            velocity = velocity - 10;
+        // Rectangle jumps when space is pressed (Subtracting from velocity moves the character up)
+        if(IsKeyPressed(KEY_SPACE) && !isInAir) {
+            velocity = velocity + jumpForce;
         }
 
 
