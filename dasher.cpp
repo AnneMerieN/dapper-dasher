@@ -23,6 +23,8 @@ int main() {
     const int gravity = 1000; // Makes the character fall
     bool isInAir{};
 
+
+    // Scarfy variables
     Texture2D scarfy = LoadTexture("textures/scarfy.png"); // load texture
     Rectangle scarfyRec;
     scarfyRec.width = scarfy.width / 6;
@@ -32,6 +34,10 @@ int main() {
     Vector2 scarfyPos;
     scarfyPos.x = windowWidth / 2 - scarfyRec.width / 2;
     scarfyPos.y = windowHeight - scarfyRec.height;
+
+    // Nebula variables
+    Texture2D nebula = LoadTexture("textures/12_nebula_spritesheet.png");
+
 
     
 
@@ -92,5 +98,6 @@ int main() {
 
     }
     UnloadTexture(scarfy);
+    UnloadTexture(nebula);
     CloseWindow();
 }
