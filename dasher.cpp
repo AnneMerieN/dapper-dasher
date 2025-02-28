@@ -16,17 +16,21 @@ int main() {
     // Call function that makes window pop-up
     InitWindow(windowWidth, windowHeight, "Dapper Dasher");
 
-    // Rectangle dimensions
-    const int width = 50;
-    const int height = 80;
-
-    int posY = windowHeight - height; // Rectangle starts at bottom of window
     int velocity = 0; // Initial velocity (not moving)
     const int jumpForce = -22; // Controls how high the jump is
     const int gravity = 1; // Makes the character fall
-    bool isJumping = false; // Track whether the user is pressing the space key
     bool isInAir{};
-    
+
+    Texture2D scarfy = LoadTexture("textures/scarfy.png"); // compound data type
+    Rectangle scarfyRec;
+    scarfyRec.width = scarfy.width / 6;
+    scarfyRec.height = scarfy.height;
+    scarfyRec.x = 0;
+    scarfyRec.y = 0;
+    Vector2 scarfyPos;
+    scarfyPos.x = windowWidth / 2 - scarfyRec.width/2;
+    scarfyPos.y = windowHeight - scarfyRec.height;
+
 
     SetTargetFPS(60);
 
@@ -37,7 +41,7 @@ int main() {
         ClearBackground(WHITE);
 
         // Perform ground check (Checks if rectangle has reached or is below the ground level)
-        if(posY >= windowHeight - height) {
+        if(scarfyPos.y >= windowHeight - scarfyRec.height) {
             // Rectangle is on the ground
             velocity = 0;
             isInAir = false;
@@ -53,13 +57,13 @@ int main() {
         }
 
 
-        posY = posY + velocity;
-        DrawRectangle(windowWidth / 2, posY, width, height, BLUE);
+        scarfyPos.y = scarfyPos.y + velocity;
+        DrawTextureRec(scarfy, scarfyRec, scarfyPos, WHITE);
 
         // End the frame and present the new content
         EndDrawing(); 
 
     }
-
+    UnloadTexture(scarfy);
     CloseWindow();
 }
